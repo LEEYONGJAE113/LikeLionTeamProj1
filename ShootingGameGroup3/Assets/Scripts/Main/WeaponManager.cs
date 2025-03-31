@@ -63,8 +63,10 @@ public class WeaponManager : MonoBehaviour
     private LYJ_BFShotGun bfShotGunScript;
     private LYJ_AlcoholBurnerHand alcoholBurnerScript;
     private LYJ_MoneyGun moneyGunScript;
+    private LHG_Bounce_Gun bounceGunScript;
 
-    //private LHG_Bounce_Gun bounceGunScript;
+
+
 
     void Start()
     {
@@ -90,7 +92,7 @@ public class WeaponManager : MonoBehaviour
         return stage switch
         {
             1 => new List<GameObject> { Boomerang },
-            2 => new List<GameObject> { },
+            2 => new List<GameObject> { BounceGun},
             3 => new List<GameObject> { Triump, Muffin },
             4 => new List<GameObject> { BFShotGun, AlcoholBurner, MoneyGun },
             5 => new List<GameObject> { ChargeRifle },
@@ -167,6 +169,7 @@ public class WeaponManager : MonoBehaviour
         bfShotGunScript = currentWeapon.GetComponent<LYJ_BFShotGun>();
         alcoholBurnerScript = currentWeapon.GetComponent<LYJ_AlcoholBurnerHand>();
         moneyGunScript = currentWeapon.GetComponent<LYJ_MoneyGun>();
+        bounceGunScript = currentWeapon.GetComponent<LHG_Bounce_Gun>();
     }
 
     private void SetCurrentWeaponName()
@@ -185,6 +188,8 @@ public class WeaponManager : MonoBehaviour
             currentWeaponName = WeaponName.알코올램프;
         else if (moneyGunScript != null)
             currentWeaponName = WeaponName.머니건;
+        else if (moneyGunScript != null)
+            currentWeaponName = WeaponName.바운스건;
     }
 
     #region Weapon Actions
