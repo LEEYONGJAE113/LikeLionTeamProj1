@@ -4,7 +4,7 @@ using UnityEngine;
 public class LYJ_NormalEnemy : MonoBehaviour
 {
     float moneyChaseRange = 5f;
-    float[] hpForWave = { 100, 150, 200, 250, 300 }; // temp
+    float[] hpForWave = { 1, 2, 3, 4, 5 }; // temp
     float hp;
     float moveSpeed = 1.5f;
     bool isHitRecent;
@@ -24,7 +24,7 @@ public class LYJ_NormalEnemy : MonoBehaviour
 
     void OnEnable()
     {
-        hp = hpForWave[GameManager.Instance.SpawnManager.CurrentWave];
+        hp = hpForWave[Mathf.Min(GameManager.Instance.SpawnManager.CurrentWave, 4)];
         isHitRecent = false;
         isHitWithOil = false;
     }
@@ -96,5 +96,6 @@ public class LYJ_NormalEnemy : MonoBehaviour
     {
         StopCoroutine(HitReaction());
         PoolManager.Instance.ReturnGameObject(gameObject);
+        Destroy(gameObject);
     }
 }

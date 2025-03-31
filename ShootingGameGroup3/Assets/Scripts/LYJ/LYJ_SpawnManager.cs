@@ -7,11 +7,12 @@ public class LYJ_SpawnManager : MonoBehaviour
     List<GameObject> enemies;
     List<Transform> spawnPoints;
     float waveInterval = 30f;
-    int currentWave = 1;
+    int currentWave = 0;
     public int CurrentWave => currentWave;
 
     void Awake()
     {
+        spawnPoints = new List<Transform>();
         foreach (var item in enemies)
         {
             PoolManager.Instance.CreatePool(item, 10);
