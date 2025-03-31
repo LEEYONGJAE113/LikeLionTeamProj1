@@ -90,6 +90,7 @@ public class LSM_Triump : MonoBehaviour
         }
         HandleJoker();
         CheckSpadeStack();
+        //FlipGun();
     }
 
     // 왼쪽 클릭 - 발사

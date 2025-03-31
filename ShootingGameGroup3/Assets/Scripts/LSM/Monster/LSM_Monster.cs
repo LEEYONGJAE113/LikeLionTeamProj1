@@ -6,8 +6,8 @@ public class LSM_Monster : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public Rigidbody2D rb;
 
-    public int health = 100;
-    public int move_speed = 3;
+    public int health = 10;
+    public float move_speed = 1.5f;
     public bool invincibility = false;
     public bool isSmells = false;
     public bool isTracking = true;

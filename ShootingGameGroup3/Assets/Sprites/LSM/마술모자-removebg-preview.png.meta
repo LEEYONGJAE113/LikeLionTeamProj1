@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2a5873fb08d762541949f814e7332cd7
+guid: ea1c447b9f8642b418210225fec07f9b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5203849970435698211
-    second: muffin-removebg-preview_0
+      213: 5142106418238670561
+    second: "\uB9C8\uC220\uBAA8\uC790-removebg-preview_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 70
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -122,43 +122,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: muffin-removebg-preview_0
+      name: "\uB9C8\uC220\uBAA8\uC790-removebg-preview_0"
       rect:
         serializedVersion: 2
-        x: 95
-        y: 94
-        width: 311
-        height: 311
+        x: 4
+        y: 0
+        width: 515
+        height: 473
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dd1d0c7e50638c7b0800000000000000
-      internalID: -5203849970435698211
+      spriteID: 1e64f581b8e6c5740800000000000000
+      internalID: 5142106418238670561
       vertices: []
       indices: 
       edges: []
@@ -186,8 +160,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      muffin-removebg-preview_0: -5203849970435698211
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

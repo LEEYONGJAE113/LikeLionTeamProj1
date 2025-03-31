@@ -146,6 +146,12 @@ MonoBehaviour:
   RuinLazer: {fileID: 9069783297465882975, guid: 62b78c72893a0eb46a1621201eaa2570, type: 3}
   LazerWarning: {fileID: 4607512559714828574, guid: 0d087be38fda2f64ca3f400eea5c7885, type: 3}
   RuinLazerSpawnPoint: {fileID: 6641022838676001442}
+  warningAreas:
+  - {fileID: 0}
+  - {fileID: 0}
+  skullCardPrefab: {fileID: 1567115414857186053, guid: 3d3fe88e9b274904aa236eb97b7ae764, type: 3}
+  warningDuration: 2
+  attackDuration: 2
 --- !u!114 &1601670638074375548
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement; // 추가
 
 public class Player : MonoBehaviour
 {
@@ -203,6 +204,10 @@ public class Player : MonoBehaviour
             if (hp <= 0)
             {
                 hp = 0;
+                Debug.Log("플레이어 사망");
+                // 현재 씬 다시 로드
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                return;
             }
             Debug.Log("피해 입음");
             StartCoroutine(InvincibleRoutine());

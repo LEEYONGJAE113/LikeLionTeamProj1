@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LSM_NormalBullet : MonoBehaviour
 {
-    public int baseDamage = 1;
+    private int baseDamage = 5;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -72,6 +72,11 @@ public class WeaponManager : MonoBehaviour
         mousePos = GameManager.Instance.MouseManager.GetMousePos();
     }
 
+    void Update()
+    {
+        FlipGun();
+    }
+
     private void InitializeWeapons()
     {
         int currentStage = GameManager.Instance.stage;
@@ -257,4 +262,27 @@ public class WeaponManager : MonoBehaviour
         }
     }
     #endregion
+
+    void FlipGun()
+    {
+        Vector3 mousePos = GameManager.Instance.MouseManager.GetMousePos();
+        Vector3 gunScale = gunPos.localScale;
+        Vector3 gunLocalPos = gunPos.localPosition;
+
+        if (mousePos.x < GameManager.Instance.Player.transform.position.x)
+        {
+            // 마우스가 왼쪽에 있을 때
+            gunScale.x = -1; // 스프라이트 반전
+            gunLocalPos.x = -Mathf.Abs(gunLocalPos.x); // 위치도 반전
+        }
+        else
+        {
+            // 마우스가 오른쪽에 있을 때
+            gunScale.x = 1; // 기본 상태
+            gunLocalPos.x = Mathf.Abs(gunLocalPos.x); // 기본 위치
+        }
+
+        gunPos.localScale = gunScale;
+        gunPos.localPosition = gunLocalPos;
+    }
 }

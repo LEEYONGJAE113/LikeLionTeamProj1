@@ -27,6 +27,22 @@ public class LSM_CardQueen : MonoBehaviour
     private bool pattern40Triggered = false;
     private bool pattern10Triggered = false;
 
+    [Header("Big Card Attack")]
+    [SerializeField]
+    private GameObject warningArea1; // 첫 번째 경고 영역
+
+    [SerializeField]
+    private GameObject warningArea2; // 두 번째 경고 영역
+
+    [SerializeField]
+    private GameObject skullCardPrefab;
+
+    [SerializeField]
+    private float warningDuration = 2f;
+
+    [SerializeField]
+    private float attackDuration = 2f;
+
     void Awake()
     {
         monsterScript = GetComponent<LSM_Monster>();
@@ -124,7 +140,7 @@ public class LSM_CardQueen : MonoBehaviour
         );
         Rigidbody2D crb = cardBullet.GetComponent<Rigidbody2D>();
         Vector2 direction = (Player.transform.position - CardBulletSpawnPoint.position).normalized;
-        crb.linearVelocity = direction * 8f; // 속도 조정
+        cardBullet.GetComponent<LSM_CardBullet>().SetDirection(direction);
         canShoot = false;
         StartCoroutine(ShootDelay());
     }
@@ -141,7 +157,65 @@ public class LSM_CardQueen : MonoBehaviour
         canShoot = true;
     }
 
-    void Big_CardAttack() { }
+    void Big_CardAttack()
+    {
+        // 두 영역 중 하나를 랜덤하게 선택
+        GameObject selectedArea = (Random.value > 0.5f) ? warningArea1 : warningArea2;
+        StartCoroutine(BigCardSequence(selectedArea));
+    }
+
+    private IEnumerator BigCardSequence(GameObject warningArea)
+    {
+        // 초기에 경고 영역들은 비활성화 상태
+        warningArea1.SetActive(false);
+        warningArea2.SetActive(false);
+
+        // 선택된 경고 영역 활성화
+        warningArea.SetActive(true);
+
+        // 깜빡임 효과
+        float elapsedTime = 0f;
+        SpriteRenderer warningSprite = warningArea.GetComponent<SpriteRenderer>();
+
+        while (elapsedTime < warningDuration)
+        {
+            warningSprite.enabled = !warningSprite.enabled;
+            yield return new WaitForSeconds(0.2f);
+            elapsedTime += 0.2f;
+        }
+
+        // 경고 영역 비활성화
+        warningArea.SetActive(false);
+
+        // 해골 카드 생성
+        GameObject skullCard = Instantiate(
+            skullCardPrefab,
+            warningArea.transform.position,
+            warningArea.transform.rotation
+        );
+
+        // 카드 크기를 경고 영역과 동일하게 설정
+        skullCard.transform.localScale = warningArea.transform.localScale;
+
+        // 플레이어와 충돌 체크 및 데미지 적용
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            warningArea.transform.position,
+            warningArea.transform.localScale,
+            0f
+        );
+
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.CompareTag("Player"))
+            {
+                GameManager.Instance.Player.HPChange(-1f);
+            }
+        }
+
+        // 지정된 시간 후 해골 카드 제거
+        yield return new WaitForSeconds(attackDuration);
+        Destroy(skullCard);
+    }
 
     void Ruined_Lazer()
     {
