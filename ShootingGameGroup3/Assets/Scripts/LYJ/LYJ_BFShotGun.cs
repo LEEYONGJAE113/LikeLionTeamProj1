@@ -20,9 +20,11 @@ public class LYJ_BFShotGun : MonoBehaviour
     const float FIRE_ANGLE = 15f; // temp
     [SerializeField]
     GameObject _bullet;
+    SpriteRenderer spriteRenderer;
 
     void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         _readyToShoot = true;
         // 이하 수치조정 필요, temp now
         _damage = 7;
@@ -32,7 +34,7 @@ public class LYJ_BFShotGun : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.Instance.Player.SpdChange(1.5f);
+        // GameManager.Instance.Player.SpdChange(-3.5f);
     }
 
     void FixedUpdate()

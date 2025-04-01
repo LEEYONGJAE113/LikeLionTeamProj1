@@ -166,6 +166,7 @@ public class MapManager : MonoBehaviour
         }
 
         currentWaveRoutine = StartCoroutine(Stage1WaveRoutine());
+
     }
 
     private IEnumerator Stage1WaveRoutine()

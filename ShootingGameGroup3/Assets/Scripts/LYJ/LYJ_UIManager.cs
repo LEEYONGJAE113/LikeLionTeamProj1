@@ -5,8 +5,11 @@ public class LYJ_UIManager : MonoBehaviour
 {
     public enum UIType { WeaponSlot, HP }
 
+[SerializeField]
     Sprite banWeaponIcon;
+[SerializeField]
     Sprite selectWeaponIcon;
+[SerializeField]
     Sprite normalWeaponIcon;
     List<GameObject> Hearts;
     GameObject HeartIcon;
