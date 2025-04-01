@@ -230,6 +230,7 @@ MonoBehaviour:
   BFShotGun: {fileID: 0}
   AlcoholBurner: {fileID: 0}
   MoneyGun: {fileID: 0}
+  BounceGun: {fileID: 0}
   gunPos: {fileID: 0}
 --- !u!4 &108578223
 Transform:
@@ -556,8 +557,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MouseManager: {fileID: 385466074}
-  Player: {fileID: 0}
+  Player: {fileID: 584255353}
   WeaponManager: {fileID: 108578222}
+  SpawnManager: {fileID: 0}
   isSceneCleared: 0
   sceneOrder:
   - MainScene
@@ -639,6 +641,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3729586135666635174, guid: 644e9e8166067c44ba64c9b6d13e8ee7, type: 3}
   m_PrefabInstance: {fileID: 698828898}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &584255353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 584255341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6037cff3f2e0ad6478387d530aeeb59b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWeapon: {fileID: 0}
 --- !u!1001 &698828898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -723,13 +738,17 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 636618492029088401, guid: 644e9e8166067c44ba64c9b6d13e8ee7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6440544761061065571, guid: 644e9e8166067c44ba64c9b6d13e8ee7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 584255347}
+    - targetCorrespondingSourceObject: {fileID: 6440544761061065571, guid: 644e9e8166067c44ba64c9b6d13e8ee7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 584255353}
   m_SourcePrefab: {fileID: 100100000, guid: 644e9e8166067c44ba64c9b6d13e8ee7, type: 3}
 --- !u!1 &903370574
 GameObject:

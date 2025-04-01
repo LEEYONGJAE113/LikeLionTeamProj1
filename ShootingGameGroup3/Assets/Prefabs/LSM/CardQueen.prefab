@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 7762473140615510150}
   - component: {fileID: 4641143724660193512}
   - component: {fileID: 1601670638074375548}
+  - component: {fileID: 8653475675362100506}
+  - component: {fileID: -5703661746529152950}
   m_Layer: 0
   m_Name: CardQueen
   m_TagString: Monster
@@ -133,22 +135,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad48c780a2b1554e98e9726af25b262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  CardSoldier: {fileID: 8034412090091149720, guid: 4786afe95af8cc24fb483660d384e97c, type: 3}
-  spawnPoint: {fileID: 0}
-  spawnPoint2: {fileID: 0}
+  Player: {fileID: 8045881632387723453, guid: 18f4bd0eb279a9340896dd3d9a2b834e, type: 3}
+  CardSoldier: {fileID: 6856141165228166168, guid: 436f4742d679b8143a25a13ec229e34d, type: 3}
+  CardBullet: {fileID: 8979005000441463550, guid: 9c16c20fc4cecf14a8252b65a696cc4f, type: 3}
+  RuinLazer: {fileID: 366417974587451542, guid: 79db93f0da55bb240b986e48527301b7, type: 3}
+  LazerWarning: {fileID: 4607512559714828574, guid: 0d087be38fda2f64ca3f400eea5c7885, type: 3}
   canSpawn: 1
   spawnInterval: 15
-  CardBullet: {fileID: 2940485559100339382, guid: fef6537cdd7d6ad418051419239cabd3, type: 3}
-  CardBulletSpawnPoint: {fileID: 0}
   canShoot: 1
   shootInterval: 3
-  RuinLazer: {fileID: 9069783297465882975, guid: 62b78c72893a0eb46a1621201eaa2570, type: 3}
-  LazerWarning: {fileID: 4607512559714828574, guid: 0d087be38fda2f64ca3f400eea5c7885, type: 3}
-  RuinLazerSpawnPoint: {fileID: 6641022838676001442}
-  warningAreas:
-  - {fileID: 0}
-  - {fileID: 0}
   skullCardPrefab: {fileID: 1567115414857186053, guid: 3d3fe88e9b274904aa236eb97b7ae764, type: 3}
   warningDuration: 2
   attackDuration: 2
@@ -172,3 +167,67 @@ MonoBehaviour:
   invincibility: 0
   isSmells: 0
   isTracking: 1
+--- !u!70 &8653475675362100506
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5867885584515073654}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1, y: 2}
+  m_Direction: 0
+--- !u!50 &-5703661746529152950
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5867885584515073654}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

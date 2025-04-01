@@ -64,9 +64,12 @@ public class WeaponManager : MonoBehaviour
     private LYJ_AlcoholBurnerHand alcoholBurnerScript;
     private LYJ_MoneyGun moneyGunScript;
     private LHG_Bounce_Gun bounceGunScript;
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> main
 
     void Start()
     {
@@ -92,7 +95,11 @@ public class WeaponManager : MonoBehaviour
         return stage switch
         {
             1 => new List<GameObject> { Boomerang },
+<<<<<<< HEAD
             2 => new List<GameObject> { BounceGun},
+=======
+            2 => new List<GameObject> { BounceGun },
+>>>>>>> main
             3 => new List<GameObject> { Triump, Muffin },
             4 => new List<GameObject> { BFShotGun, AlcoholBurner, MoneyGun },
             5 => new List<GameObject> { ChargeRifle },
@@ -188,7 +195,11 @@ public class WeaponManager : MonoBehaviour
             currentWeaponName = WeaponName.알코올램프;
         else if (moneyGunScript != null)
             currentWeaponName = WeaponName.머니건;
+<<<<<<< HEAD
         else if (moneyGunScript != null)
+=======
+        else if (bounceGunScript != null)
+>>>>>>> main
             currentWeaponName = WeaponName.바운스건;
     }
 
@@ -217,6 +228,9 @@ public class WeaponManager : MonoBehaviour
                 break;
             case WeaponName.머니건:
                 moneyGunScript.FireCoin();
+                break;
+            case WeaponName.바운스건:
+                bounceGunScript.Fire(mousePos);
                 break;
         }
     }
@@ -270,6 +284,12 @@ public class WeaponManager : MonoBehaviour
 
     void FlipGun()
     {
+        // GameManager나 Player가 없으면 함수 종료
+        if (GameManager.Instance == null || GameManager.Instance.Player == null)
+        {
+            return;
+        }
+
         Vector3 mousePos = GameManager.Instance.MouseManager.GetMousePos();
         Vector3 gunScale = gunPos.localScale;
         Vector3 gunLocalPos = gunPos.localPosition;

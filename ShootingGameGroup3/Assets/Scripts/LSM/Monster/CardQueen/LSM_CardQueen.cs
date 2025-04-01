@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class LSM_CardQueen : MonoBehaviour
@@ -7,32 +8,36 @@ public class LSM_CardQueen : MonoBehaviour
 
     public GameObject Player;
 
-    public GameObject CardSoldier;
-    public Transform spawnPoint;
-    public Transform spawnPoint2;
+    [SerializeField]
+    private GameObject CardSoldier;
+
+    [SerializeField]
+    private GameObject CardBullet;
+
+    [SerializeField]
+    private GameObject RuinLazer;
+
+    [SerializeField]
+    private GameObject LazerWarning;
+
+    private Transform[] soldierSpawnPoints;
+    private Transform bulletSpawnPoint;
+    private Transform RuinLazerSpawnPoint;
+
     public bool canSpawn = true;
     public float spawnInterval = 15f;
 
-    public GameObject CardBullet;
-    public Transform CardBulletSpawnPoint;
     public bool canShoot = true;
     public float shootInterval = 3f;
 
-    public GameObject RuinLazer;
-    public GameObject LazerWarning;
-    public Transform RuinLazerSpawnPoint;
-
-    private bool pattern450Triggered = false;
-    private bool pattern60Triggered = false;
-    private bool pattern40Triggered = false;
+    private bool pattern150Triggered = false;
+    private bool pattern100Triggered = false;
+    private bool pattern50Triggered = false;
     private bool pattern10Triggered = false;
 
     [Header("Big Card Attack")]
-    [SerializeField]
-    private GameObject warningArea1; // 첫 번째 경고 영역
-
-    [SerializeField]
-    private GameObject warningArea2; // 두 번째 경고 영역
+    private GameObject warningArea1;
+    private GameObject warningArea2;
 
     [SerializeField]
     private GameObject skullCardPrefab;
@@ -50,16 +55,35 @@ public class LSM_CardQueen : MonoBehaviour
 
     void Start()
     {
-        //GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameManager.Instance.Player.gameObject;
         monsterScript.SetInvincibility(false);
         monsterScript.isTracking = false;
         monsterScript.isSmells = false;
-        monsterScript.health = 500;
+        monsterScript.health = 200;
+
+        // MapManager에서 스폰 포인트 가져오기
+        soldierSpawnPoints = MapManager.Instance.GetQueenSoldierSpawnPoints();
+        bulletSpawnPoint = MapManager.Instance.GetQueenBulletSpawnPoint();
+        RuinLazerSpawnPoint = MapManager.Instance.GetQueenLazerSpawnPoint();
+        warningArea1 = MapManager.Instance.GetWarningArea1();
+        warningArea2 = MapManager.Instance.GetWarningArea2();
+
+        // null 체크 추가
+        if (warningArea1 == null || warningArea2 == null)
+        {
+            Debug.LogError("Warning areas not assigned in MapManager!");
+        }
+
+        // 초기에 경고 영역 비활성화
+        if (warningArea1 != null)
+            warningArea1.SetActive(false);
+        if (warningArea2 != null)
+            warningArea2.SetActive(false);
     }
 
     void Update()
     {
-        SpawnSolider();
+        //SpawnSolider();
         CardAttack();
         PatternManage();
     }
@@ -68,22 +92,22 @@ public class LSM_CardQueen : MonoBehaviour
     {
         int health = monsterScript.health;
 
-        if (health <= 450 && !pattern450Triggered)
+        if (health <= 150 && !pattern150Triggered)
         {
-            pattern450Triggered = true;
-            Pattern450();
+            pattern150Triggered = true;
+            Pattern150();
         }
 
-        if (health <= 60 && !pattern60Triggered)
+        if (health <= 100 && !pattern100Triggered)
         {
-            pattern60Triggered = true;
-            Pattern60();
+            pattern100Triggered = true;
+            Pattern100();
         }
 
-        if (health <= 40 && !pattern40Triggered)
+        if (health <= 50 && !pattern50Triggered)
         {
-            pattern40Triggered = true;
-            Pattern40();
+            pattern50Triggered = true;
+            Pattern50();
         }
 
         if (health <= 10 && !pattern10Triggered)
@@ -93,54 +117,69 @@ public class LSM_CardQueen : MonoBehaviour
         }
     }
 
-    void Pattern450()
+    void Pattern150()
     {
-        Debug.Log("450줄 패턴 실행");
+        Debug.Log("150줄 패턴 실행");
         Big_CardAttack();
-        // 패턴 구현
     }
 
-    void Pattern60()
+    void Pattern100()
     {
-        Debug.Log("300줄 패턴 실행");
-        // 패턴 구현
+        Debug.Log("100줄 패턴 실행");
+        Ruined_Lazer();
     }
 
-    void Pattern40()
+    void Pattern50()
     {
-        Debug.Log("40% 패턴 실행");
-        // 패턴 구현
+        Debug.Log("50줄 패턴 실행");
     }
 
     void Pattern10()
     {
-        Debug.Log("100줄 패턴 실행");
+        Debug.Log("10줄 패턴 실행");
         Ruined_Lazer();
-        // 패턴 구현
     }
 
     void SpawnSolider()
     {
-        if (!canSpawn)
+        if (!canSpawn || soldierSpawnPoints == null || soldierSpawnPoints.Length < 2)
             return;
-        GameObject soldier = Instantiate(CardSoldier, spawnPoint.position, Quaternion.identity);
-        GameObject soldier2 = Instantiate(CardSoldier, spawnPoint2.position, Quaternion.identity);
+
+        GameObject soldier = Instantiate(
+            CardSoldier,
+            soldierSpawnPoints[0].position,
+            Quaternion.identity
+        );
+        GameObject soldier2 = Instantiate(
+            CardSoldier,
+            soldierSpawnPoints[1].position,
+            Quaternion.identity
+        );
         canSpawn = false;
         StartCoroutine(SpawnDelay());
     }
 
     void CardAttack()
     {
-        if (!canShoot)
+        if (!canShoot || bulletSpawnPoint == null)
             return;
+
         GameObject cardBullet = Instantiate(
             CardBullet,
-            CardBulletSpawnPoint.position,
+            bulletSpawnPoint.position,
             Quaternion.identity
         );
-        Rigidbody2D crb = cardBullet.GetComponent<Rigidbody2D>();
-        Vector2 direction = (Player.transform.position - CardBulletSpawnPoint.position).normalized;
-        cardBullet.GetComponent<LSM_CardBullet>().SetDirection(direction);
+
+        cardBullet.transform.Rotate(0, 0, 90f);
+
+        Rigidbody2D rb = cardBullet.GetComponent<Rigidbody2D>();
+
+        if (rb != null)
+        {
+            Vector2 direction = (Player.transform.position - bulletSpawnPoint.position).normalized;
+            rb.linearVelocity = direction * 8f;
+        }
+
         canShoot = false;
         StartCoroutine(ShootDelay());
     }
@@ -159,21 +198,23 @@ public class LSM_CardQueen : MonoBehaviour
 
     void Big_CardAttack()
     {
-        // 두 영역 중 하나를 랜덤하게 선택
-        GameObject selectedArea = (Random.value > 0.5f) ? warningArea1 : warningArea2;
+        GameObject selectedArea = (UnityEngine.Random.value > 0.5f) ? warningArea1 : warningArea2;
         StartCoroutine(BigCardSequence(selectedArea));
     }
 
     private IEnumerator BigCardSequence(GameObject warningArea)
     {
-        // 초기에 경고 영역들은 비활성화 상태
+        if (warningArea1 == null || warningArea2 == null)
+        {
+            Debug.LogError("Warning areas not assigned!");
+            yield break;
+        }
+
         warningArea1.SetActive(false);
         warningArea2.SetActive(false);
 
-        // 선택된 경고 영역 활성화
         warningArea.SetActive(true);
 
-        // 깜빡임 효과
         float elapsedTime = 0f;
         SpriteRenderer warningSprite = warningArea.GetComponent<SpriteRenderer>();
 
@@ -184,20 +225,15 @@ public class LSM_CardQueen : MonoBehaviour
             elapsedTime += 0.2f;
         }
 
-        // 경고 영역 비활성화
         warningArea.SetActive(false);
 
-        // 해골 카드 생성
+        // Create skull card with Z-axis rotation of -90 degrees
         GameObject skullCard = Instantiate(
             skullCardPrefab,
             warningArea.transform.position,
-            warningArea.transform.rotation
+            Quaternion.Euler(0, 0, -90f) // Changed to -90 degrees for correct orientation
         );
 
-        // 카드 크기를 경고 영역과 동일하게 설정
-        skullCard.transform.localScale = warningArea.transform.localScale;
-
-        // 플레이어와 충돌 체크 및 데미지 적용
         Collider2D[] hits = Physics2D.OverlapBoxAll(
             warningArea.transform.position,
             warningArea.transform.localScale,
@@ -212,7 +248,6 @@ public class LSM_CardQueen : MonoBehaviour
             }
         }
 
-        // 지정된 시간 후 해골 카드 제거
         yield return new WaitForSeconds(attackDuration);
         Destroy(skullCard);
     }
@@ -224,13 +259,12 @@ public class LSM_CardQueen : MonoBehaviour
 
     IEnumerator LazerSequence()
     {
-        // Warning 오브젝트 생성
         GameObject warning = Instantiate(
             LazerWarning,
             RuinLazerSpawnPoint.position,
             Quaternion.identity
         );
-        Transform targetTransform = Player.transform; // 기본 타겟은 플레이어
+        Transform targetTransform = Player.transform;
         Debug.Log("조준시작");
 
         float warningDuration = 5f;
@@ -238,11 +272,9 @@ public class LSM_CardQueen : MonoBehaviour
 
         while (elapsedTime < warningDuration)
         {
-            // Muffin 태그 오브젝트 검색
             GameObject[] muffins = GameObject.FindGameObjectsWithTag("Muffin");
             if (muffins.Length > 0)
             {
-                // 가장 가까운 머핀 찾기
                 float minDistance = float.MaxValue;
                 GameObject nearestMuffin = null;
 
@@ -265,7 +297,6 @@ public class LSM_CardQueen : MonoBehaviour
                 }
             }
 
-            // Warning 오브젝트 방향 업데이트
             if (warning != null)
             {
                 Vector2 direction = (
@@ -274,7 +305,6 @@ public class LSM_CardQueen : MonoBehaviour
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 warning.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-                // 자식 오브젝트의 크기와 위치 조절
                 Transform warningEffect = warning.transform.GetChild(0);
                 if (warningEffect != null)
                 {
@@ -286,9 +316,8 @@ public class LSM_CardQueen : MonoBehaviour
                     effectScale.x = distance;
                     warningEffect.localScale = effectScale;
 
-                    // 로컬 포지션 조절
                     Vector3 effectPosition = warningEffect.localPosition;
-                    effectPosition.x = -distance / 2f; // 왼쪽 방향으로 절반 거리만큼 이동
+                    effectPosition.x = -distance / 2f;
                     warningEffect.localPosition = effectPosition;
                 }
             }
@@ -297,26 +326,26 @@ public class LSM_CardQueen : MonoBehaviour
             yield return null;
         }
 
-        // Warning 오브젝트 제거
         if (warning != null)
         {
             Destroy(warning);
         }
 
-        // 실제 레이저 발사
         GameObject ruinLazer = Instantiate(
             RuinLazer,
             RuinLazerSpawnPoint.position,
-            Quaternion.identity
+            RuinLazer.transform.rotation
         );
-        //LSM_RuinLazer ruinLazerScript = ruinLazer.GetComponent<LSM_RuinLazer>();
         Vector2 finalDirection = (
             targetTransform.position - RuinLazerSpawnPoint.position
         ).normalized;
+        Rigidbody2D rb = ruinLazer.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = finalDirection * 30f; // Adjust speed as needed
+        }
         Debug.Log("발사");
-        //ruinLazerScript.SetDirection(finalDirection);
 
-        // 3초 후 레이저 삭제
         yield return new WaitForSeconds(2f);
         Destroy(ruinLazer);
     }
