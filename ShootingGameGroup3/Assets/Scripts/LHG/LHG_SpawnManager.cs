@@ -4,37 +4,41 @@ using UnityEngine.UI;
 
 public class LHG_SpawnManager : MonoBehaviour
 {
-    public GameObject monsterPrefab1; // ½ºÆùÇÒ Ã¹ ¹øÂ° ¸ó½ºÅÍ ÇÁ¸®ÆÕ
-    public GameObject monsterPrefab2; // ½ºÆùÇÒ µÎ ¹øÂ° ¸ó½ºÅÍ ÇÁ¸®ÆÕ
-    public float spawnInterval = 2f; // ½ºÆù °£°Ý
+    public GameObject monsterPrefab1; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¹ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public GameObject monsterPrefab2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float spawnInterval = 2f; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private float timer;
-    private int monsterCount = 0; // ½ºÆù ¸ó½ºÅÍ ¼ö
-    private int currentStage = 0; // ÇöÀç ½ºÅ×ÀÌÁö
-    private int[] stageMonsterCounts = { 3, 6, 9 }; // °¢ ½ºÅ×ÀÌÁö¿¡¼­ÀÇ ÃÖ´ë ¸ó½ºÅÍ ¼ö
-    private int[] stageHealth = { 1, 2, 3 }; // °¢ ½ºÅ×ÀÌÁö¿¡¼­ÀÇ ¸ó½ºÅÍ Ã¼·Â
-    private bool allMonstersDefeated = false; // ¸ðµç ¸ó½ºÅÍ°¡ Ã³¸®µÇ¾ú´ÂÁö ¿©ºÎ
+    private int monsterCount = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    private int currentStage = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private int[] stageMonsterCounts = { 3, 6, 9 }; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    private int[] stageHealth = { 1, 2, 3 }; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½
+    private bool allMonstersDefeated = false; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ Ã³ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    public Text gameOverText; // °ÔÀÓ Á¾·á ÅØ½ºÆ® UI
+    public Text gameOverText; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® UI
 
     private void Start()
     {
-        // °ÔÀÓ Á¾·á ÅØ½ºÆ®¸¦ Ã³À½¿¡ ºñÈ°¼ºÈ­
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ®ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
         gameOverText.gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        // Å¸ÀÌ¸Ó ¾÷µ¥ÀÌÆ®
+        // Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
         timer += Time.deltaTime;
 
-        // ½ºÆù °£°ÝÀÌ Áö³ª°í ÇöÀç ¸ó½ºÅÍ ¼ö°¡ ÃÖ´ë ¼öº¸´Ù ÀûÀ¸¸é ¸ó½ºÅÍ ½ºÆù
-        if (timer >= spawnInterval && monsterCount < GetCurrentMaxMonsters() && !allMonstersDefeated)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (
+            timer >= spawnInterval
+            && monsterCount < GetCurrentMaxMonsters()
+            && !allMonstersDefeated
+        )
         {
             SpawnMonster();
-            timer = 0f; // Å¸ÀÌ¸Ó ¸®¼Â
+            timer = 0f; // Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
 
-        // ¸ðµç ¸ó½ºÅÍ°¡ Ã³¸®µÇ¾ú´ÂÁö Ã¼Å©
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ Ã³ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
         if (monsterCount >= GetCurrentMaxMonsters() && !allMonstersDefeated)
         {
             allMonstersDefeated = true;
@@ -44,65 +48,69 @@ public class LHG_SpawnManager : MonoBehaviour
 
     void SpawnMonster()
     {
-        // ·£´ýÀ¸·Î ¸ó½ºÅÍ ÇÁ¸®ÆÕ ¼±ÅÃ
-        GameObject selectedMonsterPrefab = Random.Range(0, 2) == 0 ? monsterPrefab1 : monsterPrefab2;
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        GameObject selectedMonsterPrefab =
+            Random.Range(0, 2) == 0 ? monsterPrefab1 : monsterPrefab2;
 
-        // ¼±ÅÃµÈ ¸ó½ºÅÍ ÇÁ¸®ÆÕÀ» ½ºÆù
-        GameObject monster = Instantiate(selectedMonsterPrefab, transform.position, Quaternion.identity);
+        // ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        GameObject monster = Instantiate(
+            selectedMonsterPrefab,
+            transform.position,
+            Quaternion.identity
+        );
 
-        // ¸ó½ºÅÍÀÇ Ã¼·ÂÀ» ÇöÀç ½ºÅ×ÀÌÁö¿¡ ¸Â°Ô ¼³Á¤
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½
         LHG_Monster monsterScript = monster.GetComponent<LHG_Monster>();
         if (monsterScript != null)
         {
-            monsterScript.health = GetCurrentMonsterHealth(); // ÇöÀç ½ºÅ×ÀÌÁö¿¡ ¸Â´Â Ã¼·Â ¼³Á¤
+            monsterScript.health = GetCurrentMonsterHealth(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
 
-        monsterCount++; // ¸ó½ºÅÍ ¼ö Áõ°¡
+        monsterCount++; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private int GetCurrentMaxMonsters()
     {
-        // ÇöÀç ½ºÅ×ÀÌÁö¿¡ ¸Â´Â ÃÖ´ë ¸ó½ºÅÍ ¼ö ¹ÝÈ¯
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¯
         return stageMonsterCounts[currentStage];
     }
 
     private int GetCurrentMonsterHealth()
     {
-        // ÇöÀç ½ºÅ×ÀÌÁö¿¡ ¸Â´Â ¸ó½ºÅÍ Ã¼·Â ¹ÝÈ¯
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ ï¿½ï¿½È¯
         return stageHealth[currentStage];
     }
 
     public void IncreaseStage()
     {
-        // ½ºÅ×ÀÌÁö Áõ°¡
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (currentStage < stageMonsterCounts.Length - 1)
         {
             currentStage++;
         }
         else
         {
-            // ¸ðµç ½ºÅ×ÀÌÁö°¡ Á¾·áµÈ °æ¿ì °ÔÀÓ Á¾·á ÅØ½ºÆ® Ç¥½Ã
+            // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® Ç¥ï¿½ï¿½
             ShowGameOverText();
         }
     }
 
     private IEnumerator ProceedToNextStage()
     {
-        // 5ÃÊ ´ë±â
+        // 5ï¿½ï¿½ ï¿½ï¿½ï¿½
         yield return new WaitForSeconds(5f);
 
-        // ´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÁøÇàÇÏ´Â ·ÎÁ÷ Ãß°¡
-        Debug.Log("´ÙÀ½ ½ºÅ×ÀÌÁö·Î ÁøÇàÇÕ´Ï´Ù.");
-        IncreaseStage(); // ½ºÅ×ÀÌÁö Áõ°¡
-        allMonstersDefeated = false; // ¸ó½ºÅÍ Ã³¸® »óÅÂ ¸®¼Â
-        monsterCount = 0; // ¸ó½ºÅÍ ¼ö ¸®¼Â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
+        IncreaseStage(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        allMonstersDefeated = false; // ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        monsterCount = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private void ShowGameOverText()
     {
-        // °ÔÀÓ Á¾·á ÅØ½ºÆ® È°¼ºÈ­
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® È°ï¿½ï¿½È­
         gameOverText.gameObject.SetActive(true);
-        gameOverText.text = "°ÔÀÓ Á¾·á!"; // ÅØ½ºÆ® ¼³Á¤
+        gameOverText.text = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!"; // ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     }
 }
-
